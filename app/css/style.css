@@ -1,0 +1,117 @@
+html, body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+@font-face {
+  font-family: 'fontello';
+  src: url('../font/fontello.woff');
+  font-weight: normal;
+  font-style: normal;
+}
+#app {
+  height: 100%;
+}
+.map-app {
+  overflow: hidden;
+  height: 100%;
+}
+.map-app__map {
+  width: 40%;
+  height: 100%;
+  float: left;
+}
+.map-app__utils {
+  float: left;
+  width: 60%;
+  height: 100%;
+  padding-left: 2em;
+  box-sizing: border-box;
+}
+.map-app__utils__point-list, .map-app__utils__object-section {
+  float: left;
+  width: 50%;
+  height: 100%;
+  overflow-y: auto;
+}
+.map-app__utils__point-list__item {
+  margin: 0.5em;
+  padding: 0.5em;
+  border-bottom: 1px solid gainsboro;
+}
+.map-app__utils__object-section__object-list__item {
+  margin: 0.5em;
+  padding: 0.5em;
+  border: 1px outset gainsboro;
+}
+.map-app__utils__point-list__item--active {
+  background-color: yellow;
+}
+.map-app__utils__point-list__item__coords {
+  cursor: default;
+}
+.map-app__utils__point-list__item__desc, .map-app__utils__object-section__object-list__item__name {
+  margin-bottom: 1em;
+}
+.map-app__utils__point-list__item__desc span {
+  color: grey;
+  font-size: 0.9em;
+  font-style: italic;
+}
+.map-app__utils__object-section__add {
+  margin: 1em 0 0 0.5em;
+}
+
+[class$="__edit"], [class$="__delete"], .map-app__utils__point-list__item__edit--ok, .map-app__utils__object-section__object-list__item__edit {
+  display: inline-block;
+  margin-right: 0.35em;
+}
+[class$="__edit"]:before, [class$="__delete"]:before {
+  font-family: "fontello";
+  display: inline-block;
+  width: 1em;
+  margin: 0 .2em;
+}
+
+.map-app__utils__point-list__item__delete:before {
+  content: '\e800';
+}
+.map-app__utils__object-section__object-list__item__delete:before {
+  content: '\e801';
+}
+.map-app__utils__point-list__item__edit:before {
+  content: '\e802';
+}
+.map-app__utils__object-section__object-list__item__edit:before {
+  content: '\e803';
+}
+
+.map-app__utils__point-list__item__edit--ok:before, .map-app__utils__object-section__object-list__item__edit--ok:before {
+  content: 'OK';
+}
+
+
+.hidden {
+  visibility: hidden;
+}
+.text-input, .button {
+  padding: 0.5em;
+  font-size: inherit;
+  font-family: inherit;
+  margin-right: 1em;
+  border: 1px solid black;
+}
+.button {
+  background: white;
+}
+
+@media (max-width: 1200px) {
+  .map-app__map {
+    width: 100%;
+    height: 50%;
+  }
+  .map-app__utils {
+    width: 100%;
+    height: 50%;
+  }
+}
