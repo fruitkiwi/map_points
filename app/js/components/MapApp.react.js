@@ -23,7 +23,12 @@ var MapApp = React.createClass({
     return getState()
   },
   
-  componentDidMount: function() {
+  componentWillMount: function() {
+    LoadDataUtils.getData()
+    this.setState(getState())
+  },
+  
+  componentDidMount: function() {    
     PointStore.addChangeListener(this._onChange)
     ObjectStore.addChangeListener(this._onChange)
     

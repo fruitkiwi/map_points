@@ -67,12 +67,14 @@ html, body {
 [class$="__edit"], [class$="__delete"], .map-app__utils__point-list__item__edit--ok, .map-app__utils__object-section__object-list__item__edit {
   display: inline-block;
   margin-right: 0.35em;
+  cursor: default;
 }
 [class$="__edit"]:before, [class$="__delete"]:before {
   font-family: "fontello";
   display: inline-block;
   width: 1em;
   margin: 0 .2em;
+  cursor: default;
 }
 
 .map-app__utils__point-list__item__delete:before {

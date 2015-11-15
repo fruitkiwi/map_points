@@ -2,6 +2,67 @@ var React = require('react')
 
 var PointActionCreators = require('../actions/PointActionCreators')
 
+function drawMapControls() {
+  var tempMarker = new google.maps.Marker({
+      icon: {
+        path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+        scale: 3
+      },
+      draggable: true
+  })
+    
+  tempMarker.addListener('dragend', function(e) {
+      this.latLng = e.latLng
+  })
+    
+  var input = document.createElement('input')
+  input.type = 'text'
+  input.className = 'text-input'
+    
+  var button = document.createElement('input')
+  button.type = 'button'
+  button.className = 'button'
+  button.value = 'Add point'
+    
+  var cancel = document.createElement('input')
+  cancel.type = 'button'
+  cancel.className = 'button'
+  cancel.value = 'Cancel'
+    
+  function hideControls() {
+    input.value = ''
+    div.classList.add('hidden')
+    tempMarker.setMap(null)
+  }
+    
+  button.addEventListener('click', function() {
+    this.handleAdd(
+      {lat: tempMarker.latLng.lat(), lng: tempMarker.latLng.lng()},
+      input.value.trim()
+    )
+    hideControls()
+  }.bind(this))
+  cancel.addEventListener('click', hideControls)
+    
+  var div = document.createElement('div')
+  div.className = 'map-app__map__inputs-container'
+  div.appendChild(input)
+  div.appendChild(button)
+  div.appendChild(cancel)
+  div.index = 1
+  div.classList.add('hidden')
+    
+  this.mapObject.controls[google.maps.ControlPosition.TOP_RIGHT].push(div)
+    
+  this.mapObject.addListener('click', function(e) {
+    if (div.classList.contains('hidden'))
+      div.classList.remove('hidden')
+    tempMarker.setPosition(e.latLng)
+    tempMarker.setMap(this)
+    tempMarker.latLng = e.latLng
+  })
+}
+
 var Map = React.createClass({
   
   propTypes: {
@@ -17,61 +78,7 @@ var Map = React.createClass({
     })
     this.markers = {}
     
-    var tempMarker = new google.maps.Marker({
-      icon: {
-        path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-        scale: 3
-      },
-      draggable: true
-    })
-    
-    tempMarker.addListener('dragend', function(e) {
-      this.latLng = e.latLng
-    })
-    
-    var input = document.createElement('input')
-    input.type = 'text'
-    input.className = 'text-input'
-    
-    var button = document.createElement('input')
-    button.type = 'button'
-    button.className = 'button'
-    button.value = 'Add point'
-    
-    var cancel = document.createElement('input')
-    cancel.type = 'button'
-    cancel.className = 'button'
-    cancel.value = 'Cancel'
-    
-    function hideControls() {
-      input.value = ''
-      div.classList.add('hidden')
-      tempMarker.setMap(null)
-    }
-    
-    button.addEventListener('click', function() {
-      this.handleAdd({lat: tempMarker.latLng.lat(), lng: tempMarker.latLng.lng()}, input.value.trim())
-      hideControls()
-    }.bind(this))
-    cancel.addEventListener('click', hideControls)
-    
-    var div = document.createElement('div')
-    div.className = 'map-app__map__inputs-container'
-    div.appendChild(input)
-    div.appendChild(button)
-    div.appendChild(cancel)
-    div.index = 1
-    div.classList.add('hidden')
-    
-    this.mapObject.controls[google.maps.ControlPosition.TOP_RIGHT].push(div)
-    
-    this.mapObject.addListener('click', function(e) {
-      if (div.classList.contains('hidden'))
-        div.classList.remove('hidden')
-      tempMarker.setPosition(e.latLng)
-      tempMarker.setMap(this)
-      tempMarker.latLng = e.latLng
-    })
+    drawMapControls.apply(this)
     
     this.drawPoints()
     

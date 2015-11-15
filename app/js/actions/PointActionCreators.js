@@ -1,9 +1,8 @@
 var MapAppDispatcher = require('../dispatcher/MapAppDispatcher')
-var PointStore = require('../stores/PointStore')
 
 module.exports = {
   createPoint: function(coords, desc) {
-    if (!coords || !coords.lat || !coords.lng || typeof(coords.lat) !== 'number' || typeof(coords.lng) !== 'number') {
+    if (!coords || typeof(coords.lat) !== 'number' || typeof(coords.lng) !== 'number') {
       console.log('bad args in creating point')
       return
     }
@@ -37,17 +36,10 @@ module.exports = {
   },
   
   togglePointSelection: function(id) {
-    var currentPoint = PointStore.getCurrentPoint()
-    if (currentPoint && id === currentPoint.id)
-        MapAppDispatcher.dispatch({
-          type: 'point-unselected',
-          pointID: id
-        })
-    else
-        MapAppDispatcher.dispatch({
+    MapAppDispatcher.dispatch({
           type: 'point-selected',
           pointID: id
-        })
+    })
   }
   
 }

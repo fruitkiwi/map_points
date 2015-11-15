@@ -1,16 +1,14 @@
 var MapAppDispatcher = require('../dispatcher/MapAppDispatcher')
 var EventEmitter = require('events').EventEmitter
+var StoreUtils = require('../utils/StoreUtils')
+
 var PointStore = require('../stores/PointStore')
 
 var _objects = {}
 var _createdID = null
 
-function genID() {
-  return (+new Date() + Math.floor(Math.random() * 999999)).toString(36)
-}
-
 function create(name, pointID) {
-  _createdID = genID()
+  _createdID = StoreUtils.genID()
   _objects[_createdID] = {
     id: _createdID,
     name: name,
@@ -73,13 +71,7 @@ var ObjectStore = Object.assign({}, EventEmitter.prototype, {
         if (obj.pointID === pointID)
           objectsForPoint.push(obj) 
       }
-      objectsForPoint.sort(function(a, b) {
-        if (a.created < b.created)
-          return -1
-        else if (a.created > b.created)
-          return 1
-        return 0
-      })
+      StoreUtils.sort(objectsForPoint)
     }
     return objectsForPoint
   },
@@ -114,11 +106,6 @@ ObjectStore.dispatchToken = MapAppDispatcher.register(function(action) {
       break
     
     case 'point-selected':  
-      MapAppDispatcher.waitFor([PointStore.dispatchToken])
-      ObjectStore.emitChange()
-      break
-    
-    case 'point-unselected':
       MapAppDispatcher.waitFor([PointStore.dispatchToken])
       ObjectStore.emitChange()
       break
